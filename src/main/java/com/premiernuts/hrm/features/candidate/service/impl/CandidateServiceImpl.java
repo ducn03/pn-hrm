@@ -17,6 +17,7 @@ import com.premiernuts.hrm.features.candidate.spec.CandidateSpecification;
 import com.premiernuts.hrm.features.candidate.validator.CandidateValidator;
 import com.premiernuts.hrm.jpa.domain.candidate.Candidate;
 import com.premiernuts.hrm.jpa.repository.candidate.CandidateRepository;
+import com.premiernuts.hrm.jpa.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,6 +33,7 @@ import java.util.Optional;
 public class CandidateServiceImpl implements CandidateService {
 
     private final CandidateRepository candidateRepository;
+    private final UserRepository userRepository;
     private final CandidateMapper candidateMapper;
     private final CandidateValidator candidateValidator;
 
@@ -134,6 +136,10 @@ public class CandidateServiceImpl implements CandidateService {
         Candidate entity = candidateOpt.get();
         if (entity.getConvertedUserId() != null) {
             throw new PnException(ErrorCodes.CANDIDATE.ALREADY_CONVERTED);
+        }
+
+        if (!userRepository.existsById(request.getConvertedUserId())) {
+            throw new PnException(ErrorCodes.CANDIDATE.USER_NOT_FOUND);
         }
 
         entity.setStage(ECandidateStage.PASSED.name());

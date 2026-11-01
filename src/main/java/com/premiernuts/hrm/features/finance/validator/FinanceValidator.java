@@ -22,7 +22,7 @@ public class FinanceValidator {
 
         if (request.getDependentsCount() != null) {
             if (request.getDependentsCount() < 0) {
-                errors.add(MessageHelper.getMessage("40002001"));
+                errors.add(MessageHelper.getMessage(ErrorCodes.FINANCE.DEPENDENTS_COUNT_NEGATIVE));
             }
         }
 

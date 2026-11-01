@@ -24,11 +24,11 @@ public class ContractValidator {
         List<String> errors = new ArrayList<>();
 
         if (request.getUserId() == null) {
-            errors.add(MessageHelper.getMessage("40002001"));
+            errors.add(MessageHelper.getMessage(ErrorCodes.CONTRACT.USER_ID_REQUIRED));
         }
 
         if (StringHelper.isBlank(request.getContractNumber())) {
-            errors.add(MessageHelper.getMessage("40002001"));
+            errors.add(MessageHelper.getMessage(ErrorCodes.CONTRACT.CONTRACT_NUMBER_REQUIRED));
         }
 
         if (StringHelper.isBlank(request.getContractType())) {
@@ -40,7 +40,7 @@ public class ContractValidator {
         }
 
         if (request.getStartDate() == null) {
-            errors.add(MessageHelper.getMessage("40002001"));
+            errors.add(MessageHelper.getMessage(ErrorCodes.CONTRACT.START_DATE_REQUIRED));
         }
 
         if (request.getStartDate() != null && request.getEndDate() != null) {
@@ -51,13 +51,13 @@ public class ContractValidator {
 
         if (request.getBaseSalary() != null) {
             if (request.getBaseSalary().compareTo(BigDecimal.ZERO) < 0) {
-                errors.add(MessageHelper.getMessage("40002001"));
+                errors.add(MessageHelper.getMessage(ErrorCodes.CONTRACT.SALARY_NEGATIVE));
             }
         }
 
         if (request.getAllowance() != null) {
             if (request.getAllowance().compareTo(BigDecimal.ZERO) < 0) {
-                errors.add(MessageHelper.getMessage("40002001"));
+                errors.add(MessageHelper.getMessage(ErrorCodes.CONTRACT.ALLOWANCE_NEGATIVE));
             }
         }
 
@@ -87,13 +87,13 @@ public class ContractValidator {
 
         if (request.getBaseSalary() != null) {
             if (request.getBaseSalary().compareTo(BigDecimal.ZERO) < 0) {
-                errors.add(MessageHelper.getMessage("40002001"));
+                errors.add(MessageHelper.getMessage(ErrorCodes.CONTRACT.SALARY_NEGATIVE));
             }
         }
 
         if (request.getAllowance() != null) {
             if (request.getAllowance().compareTo(BigDecimal.ZERO) < 0) {
-                errors.add(MessageHelper.getMessage("40002001"));
+                errors.add(MessageHelper.getMessage(ErrorCodes.CONTRACT.ALLOWANCE_NEGATIVE));
             }
         }
 

@@ -25,7 +25,7 @@ public class CandidateValidator {
         List<String> errors = new ArrayList<>();
 
         if (request.getCompanyId() == null) {
-            errors.add(MessageHelper.getMessage("40002001"));
+            errors.add(MessageHelper.getMessage(ErrorCodes.CANDIDATE.COMPANY_ID_REQUIRED));
         }
 
         if (StringHelper.isBlank(request.getFullName())) {
@@ -110,7 +110,7 @@ public class CandidateValidator {
 
     public void validateConvert(ConvertCandidateDTO request) {
         if (request == null || request.getConvertedUserId() == null) {
-            throw new PnException(ErrorCodes.COMMON.BAD_REQUEST);
+            throw new PnException(ErrorCodes.CANDIDATE.CONVERTED_USER_ID_REQUIRED);
         }
     }
 

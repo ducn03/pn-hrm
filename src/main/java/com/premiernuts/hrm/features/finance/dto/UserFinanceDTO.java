@@ -9,6 +9,8 @@ public class UserFinanceDTO {
 
     private Long id;
     private Long userId;
+    private String username;
+    private String fullName;
     private Long bankId;
     private String bankCode;
     private String bankName;

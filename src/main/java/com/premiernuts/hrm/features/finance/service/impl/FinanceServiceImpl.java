@@ -10,8 +10,10 @@ import com.premiernuts.hrm.features.finance.service.FinanceService;
 import com.premiernuts.hrm.features.finance.validator.FinanceValidator;
 import com.premiernuts.hrm.jpa.domain.bank.Bank;
 import com.premiernuts.hrm.jpa.domain.finance.UserFinance;
+import com.premiernuts.hrm.jpa.domain.user.User;
 import com.premiernuts.hrm.jpa.repository.bank.BankRepository;
 import com.premiernuts.hrm.jpa.repository.finance.UserFinanceRepository;
+import com.premiernuts.hrm.jpa.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,7 @@ public class FinanceServiceImpl implements FinanceService {
 
     private final UserFinanceRepository userFinanceRepository;
     private final BankRepository bankRepository;
+    private final UserRepository userRepository;
     private final FinanceMapper financeMapper;
     private final FinanceValidator financeValidator;
 
@@ -34,10 +37,18 @@ public class FinanceServiceImpl implements FinanceService {
             throw new PnException(ErrorCodes.COMMON.BAD_REQUEST);
         }
 
+        Optional<User> userOpt = userRepository.findById(userId);
+        if (userOpt.isEmpty()) {
+            throw new PnException(ErrorCodes.FINANCE.USER_NOT_FOUND);
+        }
+        User user = userOpt.get();
+
         Optional<UserFinance> financeOpt = userFinanceRepository.findByUserId(userId);
         if (financeOpt.isEmpty()) {
             UserFinanceDTO blankDTO = new UserFinanceDTO();
             blankDTO.setUserId(userId);
+            blankDTO.setUsername(user.getUsername());
+            blankDTO.setFullName(user.getFullName());
             blankDTO.setDependentsCount(0);
             blankDTO.setStatus(EStatus.ACTIVE.name());
             return blankDTO;
@@ -52,7 +63,7 @@ public class FinanceServiceImpl implements FinanceService {
             }
         }
 
-        return financeMapper.toDTO(finance, bank);
+        return financeMapper.toDTO(finance, bank, user);
     }
 
     @Override
@@ -61,6 +72,12 @@ public class FinanceServiceImpl implements FinanceService {
         if (userId == null) {
             throw new PnException(ErrorCodes.COMMON.BAD_REQUEST);
         }
+
+        Optional<User> userOpt = userRepository.findById(userId);
+        if (userOpt.isEmpty()) {
+            throw new PnException(ErrorCodes.FINANCE.USER_NOT_FOUND);
+        }
+        User user = userOpt.get();
 
         financeValidator.validateUpdate(request);
 
@@ -86,6 +103,6 @@ public class FinanceServiceImpl implements FinanceService {
         financeMapper.updateEntity(finance, request);
         UserFinance saved = userFinanceRepository.save(finance);
 
-        return financeMapper.toDTO(saved, bank);
+        return financeMapper.toDTO(saved, bank, user);
     }
 }

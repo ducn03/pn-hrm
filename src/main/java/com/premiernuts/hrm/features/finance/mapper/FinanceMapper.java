@@ -5,12 +5,13 @@ import com.premiernuts.hrm.features.finance.dto.UpdateUserFinanceDTO;
 import com.premiernuts.hrm.features.finance.dto.UserFinanceDTO;
 import com.premiernuts.hrm.jpa.domain.bank.Bank;
 import com.premiernuts.hrm.jpa.domain.finance.UserFinance;
+import com.premiernuts.hrm.jpa.domain.user.User;
 import org.springframework.stereotype.Component;
 
 @Component
 public class FinanceMapper {
 
-    public UserFinanceDTO toDTO(UserFinance entity, Bank bank) {
+    public UserFinanceDTO toDTO(UserFinance entity, Bank bank, User user) {
         if (entity == null) {
             return null;
         }
@@ -26,6 +27,11 @@ public class FinanceMapper {
         dto.setSocialInsuranceNo(entity.getSocialInsuranceNo());
         dto.setHealthInsuranceNo(entity.getHealthInsuranceNo());
         dto.setStatus(entity.getStatus());
+
+        if (user != null) {
+            dto.setUsername(user.getUsername());
+            dto.setFullName(user.getFullName());
+        }
 
         if (bank != null) {
             dto.setBankCode(bank.getCode());

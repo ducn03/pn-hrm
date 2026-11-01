@@ -20,7 +20,37 @@ CREATE TABLE IF NOT EXISTS M_BANK (
 );
 
 -- ------------------------------------------------------------------------------
--- 2. BẢNG TRANSACTION: THÔNG TIN TÀI CHÍNH, THUẾ & TÀI KHOẢN NGÂN HÀNG
+-- 2. BẢNG TRANSACTION: THÔNG TIN HỒ SƠ NHÂN VIÊN
+-- ------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS T_USER (
+    id BIGSERIAL PRIMARY KEY,
+    company_id BIGINT NOT NULL,
+    department_id BIGINT,
+    role_id BIGINT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    full_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    phone VARCHAR(20),
+    avatar_url VARCHAR(255),
+    gender VARCHAR(10),
+    dob DATE,
+    citizen_id VARCHAR(20),
+    citizen_issue_date DATE,
+    citizen_issue_place VARCHAR(100),
+    hometown VARCHAR(150),
+    permanent_address VARCHAR(255),
+    current_address VARCHAR(255),
+    emergency_contact_name VARCHAR(100),
+    emergency_contact_phone VARCHAR(20),
+    last_login_at TIMESTAMP WITH TIME ZONE,
+    status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ------------------------------------------------------------------------------
+-- 3. BẢNG TRANSACTION: THÔNG TIN TÀI CHÍNH, THUẾ & TÀI KHOẢN NGÂN HÀNG
 -- ------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS T_USER_FINANCE (
     id BIGSERIAL PRIMARY KEY,
@@ -38,7 +68,7 @@ CREATE TABLE IF NOT EXISTS T_USER_FINANCE (
 );
 
 -- ------------------------------------------------------------------------------
--- 3. BẢNG TRANSACTION: HỢP ĐỒNG LAO ĐỘNG NHÂN SỰ
+-- 4. BẢNG TRANSACTION: HỢP ĐỒNG LAO ĐỘNG NHÂN SỰ
 -- ------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS T_USER_CONTRACT (
     id BIGSERIAL PRIMARY KEY,
@@ -58,7 +88,7 @@ CREATE TABLE IF NOT EXISTS T_USER_CONTRACT (
 );
 
 -- ------------------------------------------------------------------------------
--- 4. BẢNG TRANSACTION: ỨNG VIÊN & TUYỂN DỤNG NHÂN SỰ (ATS)
+-- 5. BẢNG TRANSACTION: ỨNG VIÊN & TUYỂN DỤNG NHÂN SỰ (ATS)
 -- ------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS T_CANDIDATE (
     id BIGSERIAL PRIMARY KEY,

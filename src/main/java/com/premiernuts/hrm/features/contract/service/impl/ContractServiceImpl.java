@@ -12,6 +12,7 @@ import com.premiernuts.hrm.features.contract.service.ContractService;
 import com.premiernuts.hrm.features.contract.validator.ContractValidator;
 import com.premiernuts.hrm.jpa.domain.contract.UserContract;
 import com.premiernuts.hrm.jpa.repository.contract.UserContractRepository;
+import com.premiernuts.hrm.jpa.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ import java.util.Optional;
 public class ContractServiceImpl implements ContractService {
 
     private final UserContractRepository userContractRepository;
+    private final UserRepository userRepository;
     private final ContractMapper contractMapper;
     private final ContractValidator contractValidator;
 
@@ -33,6 +35,11 @@ public class ContractServiceImpl implements ContractService {
         if (userId == null) {
             throw new PnException(ErrorCodes.COMMON.BAD_REQUEST);
         }
+
+        if (!userRepository.existsById(userId)) {
+            throw new PnException(ErrorCodes.CONTRACT.USER_NOT_FOUND);
+        }
+
         List<UserContract> contracts = userContractRepository.findAllByUserIdOrderByStartDateDesc(userId);
         return contractMapper.toDTOList(contracts);
     }
@@ -56,6 +63,10 @@ public class ContractServiceImpl implements ContractService {
     @Transactional
     public UserContractDTO createContract(CreateUserContractDTO request) {
         contractValidator.validateCreate(request);
+
+        if (!userRepository.existsById(request.getUserId())) {
+            throw new PnException(ErrorCodes.CONTRACT.USER_NOT_FOUND);
+        }
 
         String trimmedNumber = StringHelper.trim(request.getContractNumber());
         if (userContractRepository.existsByContractNumber(trimmedNumber)) {
