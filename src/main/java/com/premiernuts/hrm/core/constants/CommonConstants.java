@@ -20,10 +20,11 @@ public final class CommonConstants {
     public static final String STATUS_LOCKED = "LOCKED";
     public static final String STATUS_EXPIRED = "EXPIRED";
 
-    // Success Message Codes
-    public static final String MSG_LOGOUT_SUCCESS = "20001001";
-    public static final String MSG_USER_CREATED = "20002001";
-    public static final String MSG_USER_UPDATED = "20002002";
-    public static final String MSG_USER_STATUS_UPDATED = "20002003";
-    public static final String MSG_PASSWORD_CHANGED = "20002004";
+    // HRM Success Message Codes
+    public static final String MSG_FINANCE_UPDATED = "20010001";
+    public static final String MSG_CONTRACT_CREATED = "20011001";
+    public static final String MSG_CONTRACT_UPDATED = "20011002";
+    public static final String MSG_CANDIDATE_CREATED = "20012001";
+    public static final String MSG_CANDIDATE_UPDATED = "20012002";
+    public static final String MSG_CANDIDATE_CONVERTED = "20012003";
 }

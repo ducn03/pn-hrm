@@ -38,7 +38,9 @@ public class GlobalExceptionHandler {
         }
 
         if (ErrorCodes.COMMON.NOT_FOUND.equals(ex.getErrorCode()) ||
-            ErrorCodes.USER.USER_NOT_FOUND.equals(ex.getErrorCode())) {
+            ErrorCodes.FINANCE.FINANCE_NOT_FOUND.equals(ex.getErrorCode()) ||
+            ErrorCodes.CONTRACT.CONTRACT_NOT_FOUND.equals(ex.getErrorCode()) ||
+            ErrorCodes.CANDIDATE.CANDIDATE_NOT_FOUND.equals(ex.getErrorCode())) {
             return ResponseUtils.notFound(ex.getErrorCode(), message);
         }
 
